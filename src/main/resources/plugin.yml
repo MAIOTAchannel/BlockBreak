@@ -1,0 +1,6 @@
+name: BlockBreak
+version: '${project.version}'
+main: com.github.maiotachannel.blockbreak.BlockBreak
+api-version: 1.16
+authors: [ MAIOTA ]
+website: https://www.maiotanet.work
