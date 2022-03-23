@@ -32,27 +32,27 @@ public final class BlockBreak extends JavaPlugin{
         /* ダイヤブロック8個 + 鋼鉄ブロック -> 圧縮ダイヤモンドブロック */addCraftRecipe(addItem(Material.DIAMOND_BLOCK,"圧縮ダイヤモンドブロック",null,null),"***","*+*","***", new HashMap<Character,ItemStack>(){{put('*', new ItemStack(Material.DIAMOND_BLOCK));put('+', addItem(Material.IRON_BLOCK, "鋼鉄ブロック",null ,null));}});
         /* 圧縮ダイヤモンド9個 -> 圧縮ダイヤモンドブロック */addCraftRecipe(addItem(Material.DIAMOND_BLOCK,"圧縮ダイヤモンドブロック",null,null),"***","***","***", new HashMap<Character,ItemStack>(){{put('*', addItem(Material.DIAMOND,"圧縮ダイヤモンド",null,null));}});
         /* 圧縮ダイヤモンドブロック8個 + ネザースター　->　「まじで？」ブロック */addCraftRecipe(addItem(Material.BEDROCK,"「まじで？」ブロック", null, null), "***", "*+*", "***", new HashMap<Character,ItemStack>(){{put('*', addItem(Material.DIAMOND_BLOCK,"圧縮ダイヤモンドブロック",null,null));put('+', new ItemStack(Material.NETHER_STAR));}});
-        /* 鋼鉄インゴット2個 + 棒1個 ->　鋼鉄剣 */addCraftRecipe(addItem(Material.IRON_SWORD, "鋼鉄剣", null, null)," * ", " * ", " + ", new HashMap<Character,ItemStack>(){{put('*', addItem(Material.IRON_INGOT, "鋼鉄インゴット",null, null));put('+', new ItemStack(Material.STICK));}});
-        /* 鋼鉄インゴット3個 + 棒2個 -> 鋼鉄ピッケル */addCraftRecipe(addItem(Material.IRON_PICKAXE, "鋼鉄ピッケル",new HashMap<Enchantment,Integer>(){{put(Enchantment.DURABILITY,1);}}, null),"***", " + ", " + ",new HashMap<Character,ItemStack>(){{put('*', addItem(Material.IRON_INGOT, "鋼鉄インゴット",null, null));put('+', new ItemStack(Material.STICK));}});
-        /* 鋼鉄インゴット1個 + 棒2個 ->　鋼鉄シャベル */
-        /* 鋼鉄剣 + ダイヤモンド　->　ダイヤ加工済み鋼鉄剣 */
-        /* 鋼鉄ピッケル + ダイヤモンド　->　ダイヤ加工済み鋼鉄ピッケル */
-        /* 鋼鉄シャベル + ダイヤモンド　->　ダイヤ加工済み鋼鉄シャベル */
-        /* 圧縮ダイヤモンド2個 + 棒1個　->　強化ダイヤモンド剣 */
-        /* 圧縮ダイヤモンド3個 + 棒2個 -> 強化ダイヤモンドピッケル　*/
-        /* 圧縮ダイヤモンド1個 + 棒2個　->　強化ダイヤモンドシャベル */
-        /* 圧縮ダイヤモンドブロック2個 + 棒1個　->　圧縮ダイヤモンド剣 */
-        /* 圧縮ダイヤモンドブロック3個 + 棒2個　-> 圧縮ダイヤモンドピッケル　*/
-        /* 圧縮ダイヤモンドブロック1個 + 棒2個　->　圧縮ダイヤモンドシャベル */
-        /* 「まじで？」ブロック2個 + 棒1個　->　「もうやばいね！」剣 */
-        /* 「まじで？」ブロック3個 + 棒2個　->　「もうやばいね！」ピッケル */
-        /* 「まじで？」ブロック1個 + 棒2個　->　「もうやばいね！」シャベル */
-        /* 圧縮ダイヤモンドブロック5個　->　圧縮ダイヤモンドヘルメット */
-        /* 圧縮ダイヤモンドブロック8個　->　圧縮ダイヤモンドチェストプレート */
-        /* 圧縮ダイヤモンドブロック7個　->　圧縮ダイヤモンドレギンス */
-        /* 圧縮ダイヤモンドブロック4個　->　圧縮ダイヤモンドブーツ */
-        /* 圧縮ダイヤモンドヘルメット + エンダードラゴンの頭　->　暗視付き圧縮ダイヤモンドヘルメット */
-        /* 　->　 */
+        /* 鋼鉄インゴット2個 + 棒1個 ->　鋼鉄剣 */addCraftRecipe(addItem(Material.IRON_SWORD, "鋼鉄剣", new HashMap<Enchantment,Integer>(){{put(Enchantment.DURABILITY,1);put(Enchantment.SWEEPING_EDGE,1);}}, null)," * ", " * ", " + ", new HashMap<Character,ItemStack>(){{put('*', addItem(Material.IRON_INGOT, "鋼鉄インゴット",null, null));put('+', new ItemStack(Material.STICK));}});
+        /* 鋼鉄インゴット3個 + 棒2個 -> 鋼鉄ピッケル */addCraftRecipe(addItem(Material.IRON_PICKAXE, "鋼鉄ピッケル", new HashMap<Enchantment,Integer>(){{put(Enchantment.DURABILITY,1); put(Enchantment.DIG_SPEED,1);}}, null),"***", " + ", " + ",new HashMap<Character,ItemStack>(){{put('*', addItem(Material.IRON_INGOT, "鋼鉄インゴット",null, null));put('+', new ItemStack(Material.STICK));}});
+        /* 鋼鉄インゴット1個 + 棒2個 ->　鋼鉄シャベル */addCraftRecipe(addItem(Material.IRON_SHOVEL,"鋼鉄シャベル",new HashMap<Enchantment,Integer>(){{put(Enchantment.DURABILITY,1); put(Enchantment.DIG_SPEED,1);}},null)," * "," + "," + ",new HashMap<Character,ItemStack>(){{put('*', addItem(Material.IRON_INGOT, "鋼鉄インゴット",null, null)); put('+', new ItemStack(Material.STICK));}});
+        /* 鋼鉄剣 + ダイヤモンド　->　ダイヤ加工済み鋼鉄剣 */addNonCraftRecipe(addItem(Material.IRON_SWORD,"ダイヤ加工済み鋼鉄剣",new HashMap<Enchantment,Integer>(){{put(Enchantment.DURABILITY,2);put(Enchantment.SWEEPING_EDGE,2);put(Enchantment.LOOT_BONUS_MOBS,1);}},null),new HashMap<Character,ItemStack>(){{put('*', addItem(Material.IRON_SWORD, "鋼鉄剣", new HashMap<Enchantment,Integer>(){{put(Enchantment.DURABILITY,1);put(Enchantment.SWEEPING_EDGE,1);}}, null)); put('+', new ItemStack(Material.DIAMOND));}});
+        /* 鋼鉄ピッケル + ダイヤモンド　->　ダイヤ加工済み鋼鉄ピッケル */addNonCraftRecipe(addItem(Material.IRON_PICKAXE,"ダイヤ加工済み鋼鉄ピッケル",new HashMap<Enchantment,Integer>(){{put(Enchantment.DURABILITY,2); put(Enchantment.DIG_SPEED,2);put(Enchantment.LOOT_BONUS_BLOCKS,1);}},null),new HashMap<Character,ItemStack>(){{put('*', addItem(Material.IRON_PICKAXE, "鋼鉄ピッケル", new HashMap<Enchantment,Integer>(){{put(Enchantment.DURABILITY,1); put(Enchantment.DIG_SPEED,1);}}, null)); put('+', new ItemStack(Material.DIAMOND));}});
+        /* 鋼鉄シャベル + ダイヤモンド　->　ダイヤ加工済み鋼鉄シャベル */addNonCraftRecipe(addItem(Material.IRON_SHOVEL,"ダイヤ加工済み鋼鉄シャベル",new HashMap<Enchantment,Integer>(){{put(Enchantment.DURABILITY,2); put(Enchantment.DIG_SPEED,2);put(Enchantment.LOOT_BONUS_BLOCKS,1);}},null),new HashMap<Character,ItemStack>(){{put('*', addItem(Material.IRON_SHOVEL,"鋼鉄シャベル",new HashMap<Enchantment,Integer>(){{put(Enchantment.DURABILITY,1); put(Enchantment.DIG_SPEED,1);}},null)); put('+', new ItemStack(Material.DIAMOND));}});
+        /* 圧縮ダイヤモンド2個 + 棒1個　->　強化ダイヤモンド剣 */addCraftRecipe(addItem(Material.DIAMOND_SWORD,"強化ダイヤモンド剣",new HashMap<Enchantment,Integer>(){{put(Enchantment.DURABILITY,3);put(Enchantment.SWEEPING_EDGE,3);}},null)," * "," * "," + ",new HashMap<Character,ItemStack>(){{put('*', addItem(Material.DIAMOND,"圧縮ダイヤモンド",null,null));put('+', new ItemStack(Material.STICK));}});
+        /* 圧縮ダイヤモンド3個 + 棒2個 -> 強化ダイヤモンドピッケル　*/addCraftRecipe(addItem(Material.DIAMOND_PICKAXE,"強化ダイヤモンドピッケル",new HashMap<Enchantment,Integer>(){{put(Enchantment.DURABILITY,3);put(Enchantment.SWEEPING_EDGE,3);}},null),"***"," + "," + ",new HashMap<Character,ItemStack>(){{put('*', addItem(Material.DIAMOND,"圧縮ダイヤモンド",null,null));put('+', new ItemStack(Material.STICK));}});
+        /* 圧縮ダイヤモンド1個 + 棒2個　->　強化ダイヤモンドシャベル */addCraftRecipe(addItem(Material.DIAMOND_SHOVEL,"強化ダイヤモンドシャベル",new HashMap<Enchantment,Integer>(){{put(Enchantment.DURABILITY,3);put(Enchantment.SWEEPING_EDGE,3);}},null)," * "," + "," + ",new HashMap<Character,ItemStack>(){{put('*', addItem(Material.DIAMOND,"圧縮ダイヤモンド",null,null));put('+', new ItemStack(Material.STICK));}});
+        /* 圧縮ダイヤモンドブロック2個 + 棒1個　->　圧縮ダイヤモンド剣 */addCraftRecipe(addItem(Material.DIAMOND_SWORD,"圧縮ダイヤモンド剣",new HashMap<Enchantment,Integer>(){{put(Enchantment.DURABILITY,5);put(Enchantment.SWEEPING_EDGE,5);put(Enchantment.LOOT_BONUS_MOBS,3);}},null)," * "," * "," + ",new HashMap<Character,ItemStack>(){{put('*', addItem(Material.DIAMOND_BLOCK,"圧縮ダイヤモンドブロック",null,null));put('+', new ItemStack(Material.STICK));}});
+        /* 圧縮ダイヤモンドブロック3個 + 棒2個　-> 圧縮ダイヤモンドピッケル　*/addCraftRecipe(addItem(Material.DIAMOND_PICKAXE,"圧縮ダイヤモンドピッケル",new HashMap<Enchantment,Integer>(){{put(Enchantment.DURABILITY,5); put(Enchantment.DIG_SPEED,5);put(Enchantment.LOOT_BONUS_BLOCKS,3);}},null),"***"," + "," + ",new HashMap<Character,ItemStack>(){{put('*', addItem(Material.DIAMOND_BLOCK,"圧縮ダイヤモンドブロック",null,null));put('+', new ItemStack(Material.STICK));}});
+        /* 圧縮ダイヤモンドブロック1個 + 棒2個　->　圧縮ダイヤモンドシャベル */addCraftRecipe(addItem(Material.DIAMOND_SHOVEL,"圧縮ダイヤモンドシャベル",new HashMap<Enchantment,Integer>(){{put(Enchantment.DURABILITY,5); put(Enchantment.DIG_SPEED,5);put(Enchantment.LOOT_BONUS_BLOCKS,3);}},null)," * "," + "," + ",new HashMap<Character,ItemStack>(){{put('*', addItem(Material.DIAMOND_BLOCK,"圧縮ダイヤモンドブロック",null,null));put('+', new ItemStack(Material.STICK));}});
+        /* 「まじで？」ブロック2個 + 棒1個　->　「もうやばいね！」剣 */addCraftRecipe(addItem(Material.DIAMOND_SWORD,"「もうやばいね！」剣",new HashMap<Enchantment,Integer>(){{put(Enchantment.DURABILITY,10);put(Enchantment.SWEEPING_EDGE,10);put(Enchantment.LOOT_BONUS_MOBS,5);}},new HashMap<Attribute,Integer>(){{put(Attribute.GENERIC_MOVEMENT_SPEED,3);put(Attribute.GENERIC_ATTACK_SPEED,6);}})," * "," * "," + ",new HashMap<Character,ItemStack>(){{put('*', addItem(Material.BEDROCK,"「まじで？」ブロック", null, null));put('+', new ItemStack(Material.STICK));}});
+        /* 「まじで？」ブロック3個 + 棒2個　->　「もうやばいね！」ピッケル */addCraftRecipe(addItem(Material.DIAMOND_PICKAXE,"「もうやばいね！」ピッケル",new HashMap<Enchantment,Integer>(){{put(Enchantment.DURABILITY,10); put(Enchantment.DIG_SPEED,10);put(Enchantment.LOOT_BONUS_BLOCKS,5);}},new HashMap<Attribute,Integer>(){{put(Attribute.GENERIC_MOVEMENT_SPEED,3);put(Attribute.GENERIC_MAX_HEALTH,6);}}),"***"," + "," + ",new HashMap<Character,ItemStack>(){{put('*', addItem(Material.BEDROCK,"「まじで？」ブロック", null, null));put('+', new ItemStack(Material.STICK));}});
+        /* 「まじで？」ブロック1個 + 棒2個　->　「もうやばいね！」シャベル */addCraftRecipe(addItem(Material.DIAMOND_SHOVEL,"「もうやばいね！」シャベル",new HashMap<Enchantment,Integer>(){{put(Enchantment.DURABILITY,10); put(Enchantment.DIG_SPEED,10);put(Enchantment.LOOT_BONUS_BLOCKS,5);}},new HashMap<Attribute,Integer>(){{put(Attribute.GENERIC_MOVEMENT_SPEED,3);put(Attribute.GENERIC_MAX_HEALTH,6);}})," * "," + "," + ",new HashMap<Character,ItemStack>(){{put('*', addItem(Material.BEDROCK,"「まじで？」ブロック", null, null));put('+', new ItemStack(Material.STICK));}});
+        /* 圧縮ダイヤモンドブロック5個　->　圧縮ダイヤモンドヘルメット */addCraftRecipe(addItem(Material.DIAMOND_HELMET,"圧縮ダイヤモンドヘルメット",new HashMap<Enchantment,Integer>(){{put(Enchantment.DURABILITY,5);put(Enchantment.PROTECTION_FIRE,3);put(Enchantment.PROTECTION_ENVIRONMENTAL,5);}},null),"***","* *","",new HashMap<Character,ItemStack>(){{put('*',addItem(Material.DIAMOND_BLOCK,"圧縮ダイヤモンドブロック",null,null));}});
+        /* 圧縮ダイヤモンドブロック8個　->　圧縮ダイヤモンドチェストプレート */addCraftRecipe(addItem(Material.DIAMOND_CHESTPLATE,"圧縮ダイヤモンドチェストプレート",new HashMap<Enchantment,Integer>(){{put(Enchantment.DURABILITY,5);put(Enchantment.PROTECTION_FIRE,3);put(Enchantment.PROTECTION_ENVIRONMENTAL,5);}},null),"* *","***","***",new HashMap<Character,ItemStack>(){{put('*',addItem(Material.DIAMOND_BLOCK,"圧縮ダイヤモンドブロック",null,null));}});
+        /* 圧縮ダイヤモンドブロック7個　->　圧縮ダイヤモンドレギンス */addCraftRecipe(addItem(Material.DIAMOND_LEGGINGS,"圧縮ダイヤモンドレギンス",new HashMap<Enchantment,Integer>(){{put(Enchantment.DURABILITY,5);put(Enchantment.PROTECTION_FIRE,3);put(Enchantment.PROTECTION_ENVIRONMENTAL,5);}},null),"***","* *","* *",new HashMap<Character,ItemStack>(){{put('*',addItem(Material.DIAMOND_BLOCK,"圧縮ダイヤモンドブロック",null,null));}});
+        /* 圧縮ダイヤモンドブロック4個　->　圧縮ダイヤモンドブーツ */addCraftRecipe(addItem(Material.DIAMOND_BOOTS,"圧縮ダイヤモンドブーツ",new HashMap<Enchantment,Integer>(){{put(Enchantment.DURABILITY,5);put(Enchantment.PROTECTION_FIRE,3);put(Enchantment.PROTECTION_ENVIRONMENTAL,5);}},null),"   ","* *","* *",new HashMap<Character,ItemStack>(){{put('*',addItem(Material.DIAMOND_BLOCK,"圧縮ダイヤモンドブロック",null,null));}});
+        /* 圧縮ダイヤモンドヘルメット + エンダードラゴンの頭　->　暗視付き圧縮ダイヤモンドヘルメット */addNonCraftRecipe(addItem(Material.DIAMOND_HELMET,"暗視付き圧縮ダイヤモンドヘルメット",null,null),new HashMap<Character,ItemStack>(){{put('*',addItem(Material.DIAMOND_HELMET,"圧縮ダイヤモンドヘルメット",new HashMap<Enchantment,Integer>(){{put(Enchantment.DURABILITY,5);put(Enchantment.PROTECTION_FIRE,3);put(Enchantment.PROTECTION_ENVIRONMENTAL,5);}},null));put('+', new ItemStack(Material.DRAGON_HEAD));}});
+        /* 　->　 addCraftRecipe(addItem(Material,"",null,null),"","","",new HashMap<Character,ItemStack>(){{put('',)}});*/
     }
 
     ItemStack addItem(Material material, String name, Map<Enchantment,Integer> enchantments, Map<Attribute,Integer> attributes){
@@ -84,6 +84,16 @@ public final class BlockBreak extends JavaPlugin{
         for (Map.Entry<Character,ItemStack> entry : RecipeItem.entrySet()){
             RecipeChoice recipeChoice = new RecipeChoice.ExactChoice(entry.getValue());
             shapedRecipe.setIngredient(entry.getKey(), recipeChoice);
+        }
+
+        getServer().addRecipe(shapedRecipe);
+    }
+
+    void addNonCraftRecipe(ItemStack result, Map<Character,ItemStack> RecipeItem){
+        ShapelessRecipe shapedRecipe = new ShapelessRecipe(result);
+        for (Map.Entry<Character,ItemStack> entry : RecipeItem.entrySet()){
+            RecipeChoice recipeChoice = new RecipeChoice.ExactChoice(entry.getValue());
+            shapedRecipe.addIngredient(recipeChoice);
         }
 
         getServer().addRecipe(shapedRecipe);
