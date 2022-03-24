@@ -4,3 +4,12 @@ main: com.github.maiotachannel.blockbreak.BlockBreak
 api-version: 1.16
 authors: [ MAIOTA ]
 website: https://www.maiotanet.work
+
+commands:
+  game:
+    description: game command.
+
+permissions:
+  game.command:
+    default: op
+    description: command permission
