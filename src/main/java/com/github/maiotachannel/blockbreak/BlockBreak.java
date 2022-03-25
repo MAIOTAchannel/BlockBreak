@@ -137,12 +137,23 @@ public final class BlockBreak extends JavaPlugin implements Listener, CommandExe
                         }
                     }
                     if (subcommand.contains("maxcount")) {
-                        String subcommand1 = "0";
-                        if (args[1] != null) {
-                            subcommand1 = args[1];
+                        if(args.length >= 2) {
+                            String subcommand1 = "0";
+                            if (args[1] != null) {
+                                subcommand1 = args[1];
+                            }
+                            maxCount = Integer.parseInt(subcommand1);
+                            sender.sendMessage("目標値を" + maxCount + "に設定しました");
                         }
-                        maxCount = Integer.parseInt(subcommand1);
-                        sender.sendMessage("目標値を"+maxCount+"に設定しました");
+                    }
+                    if (subcommand.contains("add")) {
+                        if(args.length >= 2) {
+                            String subcommand1 = "0";
+                            if (args[1] != null) {
+                                subcommand1 = args[1];
+                                BlockCount = Integer.parseInt(subcommand1);
+                            }
+                        }
                     }
                     if (subcommand.contains("end")) {
                         Game = false;
