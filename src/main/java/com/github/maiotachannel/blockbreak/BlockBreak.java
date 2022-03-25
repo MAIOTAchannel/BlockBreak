@@ -18,6 +18,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
@@ -178,10 +179,16 @@ public final class BlockBreak extends JavaPlugin implements Listener, CommandExe
         ScoreboardManager manager = Bukkit.getScoreboardManager();
         Scoreboard board = manager.getMainScoreboard();
         p.setScoreboard(board);
+        bossBar.addPlayer(p);
         Objective obj = board.getObjective("ranking");
         if(obj.getScore(p.getName()) == null){
             obj.getScore(p.getName()).setScore(0);
         }
+    }
+
+    @EventHandler
+    void onLeave(PlayerQuitEvent event){
+        bossBar.removePlayer(event.getPlayer());
     }
 
     @EventHandler
