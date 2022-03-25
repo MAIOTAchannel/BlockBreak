@@ -12,11 +12,12 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.command.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
@@ -25,6 +26,10 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.util.StringUtil;
 
 import java.lang.reflect.Field;
@@ -40,7 +45,7 @@ public final class BlockBreak extends JavaPlugin implements Listener, CommandExe
     int BLs = 0;
     BossBar bossBar;
     BukkitTask task;
-    List<Material> materials = Arrays.asList(new Material[]{Material.STONE, Material.GRANITE, Material.DIORITE,Material.ANDESITE, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.PODZOL, Material.GRAVEL, Material.BLACKSTONE});
+    List<Material> materials = Arrays.asList(new Material[]{Material.STONE, Material.GRANITE, Material.DIORITE,Material.ANDESITE, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.PODZOL, Material.GRAVEL, Material.BLACKSTONE, Material.COAL_ORE,Material.IRON_ORE,Material.GOLD_ORE, Material.LAPIS_ORE, Material.DIAMOND_ORE, Material.REDSTONE_ORE, Material.EMERALD_ORE, Material.ANCIENT_DEBRIS});
 
     @Override
     public void onEnable() {
@@ -49,85 +54,106 @@ public final class BlockBreak extends JavaPlugin implements Listener, CommandExe
         Objects.requireNonNull(getCommand("game")).setTabCompleter(this);
         registerGlow();
         addRecipes();
+        ScoreboardManager manager = Bukkit.getScoreboardManager();
+        Scoreboard board = manager.getMainScoreboard();
+        if (board.getObjective("ranking") == null) {
+            Objective obj = board.registerNewObjective("ranking", "dummy", "ranking");
+            obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+        }
+        else {
+            board.getObjective("ranking").unregister();
+            Objective obj = board.registerNewObjective("ranking", "dummy", "ranking");
+            obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+        }
     }
 
     @Override
     public void onDisable(){
-        bossBar.removeAll();
+        if (bossBar != null) {
+            bossBar.removeAll();
+        }
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String s, String[] args){
+    public boolean onCommand(CommandSender sender, Command cmd, String s, String[] args) {
 
         Player p = (Player) sender;
 
-        if(sender instanceof Player){
+        if (sender instanceof Player) {
             p = (Player) sender;
-        }else{
+        } else {
             sender.sendMessage("プレイヤー以外は実行できません");
             return true;
         }
 
-        if(!p.hasPermission("game.command")){
-            p.sendMessage("権限がありません");
-            return true;
-        }
-
-        if(args.length >= 1) {
-            String subcommand = args[0];
-            if (subcommand.contains("start")) {
-                if (!Game) {
-                    if (maxCount > 0) {
-                        Game = true;
-                        time = 0;
-                        bossBar = Bukkit.createBossBar("採掘量: " + BlockCount + " / " + maxCount + "  経過時間:00:00:00" + " 採掘速度: " + BLs + "BL/s", BarColor.PURPLE, BarStyle.SOLID);
-                        bossBar.setProgress(0);
-                        for (Player player : getServer().getOnlinePlayers()) {
-                            bossBar.addPlayer(player);
-                        }
-                        task = new BukkitRunnable() {
-
-                            int breaked;
-
-                            @Override
-                            public void run() {
-                                int s = time % 60;
-                                int m = time / 60;
-                                int h = m / 60;
-                                m = m % 60;
-                                BLs = BlockCount - breaked;
-                                breaked = BlockCount;
-                                bossBar.setTitle("採掘量: " + BlockCount + " / " + maxCount + "  経過時間: " + h + ":" + m + ":" + s + " 採掘速度: " + BLs + "BL/s");
+        if (cmd.getName().equals("game")){
+            if (p.hasPermission("game.command")) {
+                if (args.length >= 1) {
+                    String subcommand = args[0];
+                    if (subcommand.contains("start")) {
+                        if (!Game) {
+                            if (maxCount > 0) {
+                                Game = true;
+                                time = 0;
+                                bossBar = Bukkit.createBossBar("採掘量: " + BlockCount + " / " + maxCount + "  経過時間:00:00:00" + " 採掘速度: " + BLs + "BL/s", BarColor.PURPLE, BarStyle.SOLID);
+                                bossBar.setProgress(0);
                                 for (Player player : getServer().getOnlinePlayers()) {
-                                    if (player.getInventory().getHelmet().getItemMeta().getDisplayName().contains(ChatColor.DARK_PURPLE + "暗視付き圧縮ダイヤモンドヘルメット")) {
-                                        player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 300, 0));
-                                    }
+                                    bossBar.addPlayer(player);
+                                    player.setGameMode(GameMode.SURVIVAL);
                                 }
-                                time++;
+                                task = new BukkitRunnable() {
+
+                                    int breaked;
+
+                                    @Override
+                                    public void run() {
+                                        int s = time % 60;
+                                        int m = time / 60;
+                                        int h = m / 60;
+                                        m = m % 60;
+                                        BLs = BlockCount - breaked;
+                                        breaked = BlockCount;
+                                        bossBar.setTitle("採掘量: " + BlockCount + " / " + maxCount + "  経過時間: " + h + ":" + m + ":" + s + " 採掘速度: " + BLs + "BL/s");
+                                        time++;
+                                        for (Player player : getServer().getOnlinePlayers()) {
+                                            if (player.getInventory().getHelmet() != null) {
+                                                if (player.getInventory().getHelmet().equals(addItem(Material.DIAMOND_HELMET, "暗視付き圧縮ダイヤモンドヘルメット", 1, new HashMap<Enchantment, Integer>() {{
+                                                    put(Enchantment.DURABILITY, 5);
+                                                    put(Enchantment.PROTECTION_FIRE, 3);
+                                                    put(Enchantment.PROTECTION_ENVIRONMENTAL, 5);
+                                                }}, null))) {
+                                                    player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 300, 0));
+                                                }
+                                            }
+                                        }
+                                    }
+                                }.runTaskTimer(this, 0, 20);
+                            } else {
+                                sender.sendMessage("目標値を0以上にしてください");
                             }
-                        }.runTaskTimer(this, 0, 20);
-                    } else {
-                        sender.sendMessage("目標値を0以上にしてください");
+                        } else {
+                            sender.sendMessage("ゲームを実行中です");
+                        }
                     }
-                }else{
-                    sender.sendMessage("ゲームを実行中です");
+                    if (subcommand.contains("maxcount")) {
+                        String subcommand1 = "0";
+                        if (args[1] != null) {
+                            subcommand1 = args[1];
+                        }
+                        maxCount = Integer.parseInt(subcommand1);
+                        sender.sendMessage("目標値を"+maxCount+"に設定しました");
+                    }
+                    if (subcommand.contains("end")) {
+                        Game = false;
+                        bossBar.removeAll();
+                        task.cancel();
+                        BlockCount = 0;
+                    }
                 }
-            }
-            if (subcommand.contains("maxcount")) {
-                String subcommand1 = "0";
-                if (args[1] != null) {
-                    subcommand1 = args[1];
-                }
-                maxCount = Integer.parseInt(subcommand1);
-            }
-            if (subcommand.contains("end")){
-                Game = false;
-                bossBar.removeAll();
-                task.cancel();
-                BlockCount = 0;
+            } else {
+                p.sendMessage("権限がありません");
             }
         }
-
         return true;
     }
 
@@ -138,12 +164,24 @@ public final class BlockBreak extends JavaPlugin implements Listener, CommandExe
 
         String[] COMMANDS = {"start", "maxcount", "end"};
 
-        if(args.length == 1) {
+        if (args.length == 1) {
             StringUtil.copyPartialMatches(args[0], Arrays.asList(COMMANDS), completions);
         }
         //sort the list
         Collections.sort(completions);
         return completions;
+    }
+
+    @EventHandler
+    void onJoin(PlayerJoinEvent e){
+        Player p = e.getPlayer();
+        ScoreboardManager manager = Bukkit.getScoreboardManager();
+        Scoreboard board = manager.getMainScoreboard();
+        p.setScoreboard(board);
+        Objective obj = board.getObjective("ranking");
+        if(obj.getScore(p.getName()) == null){
+            obj.getScore(p.getName()).setScore(0);
+        }
     }
 
     @EventHandler
@@ -155,6 +193,10 @@ public final class BlockBreak extends JavaPlugin implements Listener, CommandExe
         if(Game) {
             if (materials.contains(block.getType())) {
                 if (api.blockLookup(block, time).isEmpty()) {
+                    ScoreboardManager manager = Bukkit.getScoreboardManager();
+                    Scoreboard board = manager.getMainScoreboard();
+                    Objective obj = board.getObjective("ranking");
+                    obj.getScore(p.getName()).setScore(obj.getScore(p.getName()).getScore()+1);
                     BlockCount += 1;
                     int s = time % 60;
                     int m = time / 60;
@@ -177,7 +219,19 @@ public final class BlockBreak extends JavaPlugin implements Listener, CommandExe
             if (block.getType() == Material.DIAMOND_ORE) {
                 if (new Random().nextInt(100) == 77){
                     block.getWorld().dropItem(block.getLocation(),new ItemStack(Material.NETHER_STAR,1));
+                    for(Player player : getServer().getOnlinePlayers()){
+                        player.sendMessage(p.getDisplayName()+"さんがネザースターを掘りあてました！");
+                    }
                 }
+            }
+        }
+    }
+
+    @EventHandler
+    void onBlockPlace(BlockPlaceEvent event){
+        if(!event.getPlayer().isOp()) {
+            if (event.getItemInHand().getType() == Material.BEDROCK) {
+                event.setCancelled(true);
             }
         }
     }
